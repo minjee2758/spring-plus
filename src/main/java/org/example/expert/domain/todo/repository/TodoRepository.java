@@ -1,5 +1,7 @@
 package org.example.expert.domain.todo.repository;
 
+import org.example.expert.client.WeatherClient;
+import org.example.expert.client.dto.WeatherDto;
 import org.example.expert.domain.todo.entity.Todo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,9 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     @Query("SELECT t FROM Todo t LEFT JOIN FETCH t.user u ORDER BY t.modifiedAt DESC")
     Page<Todo> findAllByOrderByModifiedAtDesc(Pageable pageable);
+
+    @Query("SELECT t FROM Todo t LEFT JOIN FETCH t.user u WHERE t.weather = :weather ORDER BY t.modifiedAt DESC")
+    Page<Todo> findAllByWeatherContainsOrderByModifiedAtDesc(Pageable pageable, String weather);
 
     @Query("SELECT t FROM Todo t " +
             "LEFT JOIN t.user " +
