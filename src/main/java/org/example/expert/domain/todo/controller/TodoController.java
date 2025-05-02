@@ -33,7 +33,7 @@ public class TodoController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String weather,
-            @RequestParam(defaultValue = "0000-01-01")LocalDate startDate,
+            @RequestParam(defaultValue = "0000-01-01")LocalDate startDate, //조회 시작&끝 날짜 지정 (필수x)
             @RequestParam(defaultValue = "9999-12-31") LocalDate endDate
             ) {
         return ResponseEntity.ok(todoService.getTodos(page, size, weather, startDate, endDate));
