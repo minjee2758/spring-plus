@@ -9,6 +9,7 @@ import org.example.expert.domain.manager.entity.Manager;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoCustomRepository;
 import org.example.expert.domain.todo.repository.TodoCustomRepositoryImpl;
@@ -94,5 +95,19 @@ public class TodoService {
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         );
+    }
+
+    public Page<TodoSearchResponse> searchTodo(int page, String title, String managerNickname, LocalDate startDate, LocalDate endDate) {
+        Pageable pageable = PageRequest.of(page - 1, 10);
+        Page<Todo> todos;
+
+        todos = todoCustomRepository.findByKeyword(title, managerNickname, startDate, endDate, pageable);
+
+        return todos.map(todo -> new TodoSearchResponse(
+                todo.getTitle(),
+                todo.getManagers().size(),
+                todo.getComments().size()
+        ));
+
     }
 }

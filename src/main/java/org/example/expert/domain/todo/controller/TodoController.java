@@ -7,6 +7,7 @@ import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
 import org.example.expert.domain.todo.service.TodoService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,16 @@ public class TodoController {
     @GetMapping("/todos/{todoId}")
     public ResponseEntity<TodoResponse> getTodo(@PathVariable long todoId) {
         return ResponseEntity.ok(todoService.getTodo(todoId));
+    }
+
+    @GetMapping("/todos/search")
+    public ResponseEntity<Page<TodoSearchResponse>> searchTodo(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(required = false) String title, //키워드 검색
+            @RequestParam(required = false) String nickname, //담당자의 닉네임
+            @RequestParam(defaultValue = "0000-01-01") LocalDate startDate, //생성일 기준, 조회 시작&끝 날짜 지정 (필수x)
+            @RequestParam(defaultValue = "9999-12-31") LocalDate endDate
+    ){
+        return ResponseEntity.ok(todoService.searchTodo(page, title, nickname, startDate, endDate));
     }
 }
