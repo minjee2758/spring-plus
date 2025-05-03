@@ -99,14 +99,14 @@ public class TodoService {
 
     public Page<TodoSearchResponse> searchTodo(int page, String title, String managerNickname, LocalDate startDate, LocalDate endDate) {
         Pageable pageable = PageRequest.of(page - 1, 10);
-        Page<Todo> todos;
+        Page<TodoSearchResponse> todos;
 
         todos = todoCustomRepository.findByKeyword(title, managerNickname, startDate, endDate, pageable);
 
         return todos.map(todo -> new TodoSearchResponse(
                 todo.getTitle(),
-                todo.getManagers().size(),
-                todo.getComments().size()
+                todo.getManagerCount(),
+                todo.getTotalCommentCount()
         ));
 
     }
