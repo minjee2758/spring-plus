@@ -53,7 +53,7 @@
 
 `CascadeType.ALL` vs `CascadeType.PERSIST` 를 구분해서 잘 사용해야한다
 
-🔗  <a href = "[https://velog.io/@minjee2758/SPRING-%EB%AA%A8%EB%A5%B4%EB%8A%94-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-AOP-RequestParam-Paging](https://velog.io/@minjee2758/SPRING-CascadeType-%EA%B5%AC%EB%B6%84%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)"> CascadeType 개념정리 블로그 링크 </a>
+🔗  <a href = "https://velog.io/@minjee2758/SPRING-%EB%AA%A8%EB%A5%B4%EB%8A%94-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-AOP-RequestParam-Paging](https://velog.io/@minjee2758/SPRING-CascadeType-%EA%B5%AC%EB%B6%84%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0"> CascadeType 개념정리 블로그 링크 </a>
 
 간단버전
 - ALL : 모든 변경사항이 자식에게 전파된다. (원치않는 전파가 이루어질 수 있음 조심해야함)
@@ -62,3 +62,42 @@
 CASCADE는 원하는 범위에 맞추어 딱맞게 사용해야 설계에 지장이 없다
 
 ---
+
+## 🅽 Level 2-7 : N+1 문제 해결하기
+엔티티를 조회할 때 성능 저하를 일으키는 n+1 문제를 해결 `@EntityGraph` & `Fetch Join`
+
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/cab2d1a4-74e2-41db-a240-f62d8be653b6" />
+
+---
+
+## 🔁 Level 2-8 : JPQL에서 QueryDSL로 바꾸기
+QueryDSL을 사용하면 컴파일 시점에 에러를 발견할 수 있다!!
+
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/0ffb5d1a-128b-4cc0-b5b5-45534a9923d5" />
+
+
+N+1문제가 발생하지 않도록 `fetchJoin`까지 신경쓰자
+
+---
+
+## 👮‍♀️ Level 2-9 : Spring Security 도입하기
+기존 `JwtFilter`에서 `JwtAuthFilter`로 변경(OncePerRequestFilter 상속)
+
+`SecurityConfig` 에서 인증 인가 URL 설정
+
+🔗  <a href = "https://velog.io/@minjee2758/SPRING-Spring-Security-JWT%EB%A1%9C-%EC%9D%B8%EC%A6%9D-%EC%9D%B8%EA%B0%80-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0"> Spring Security 개념정리 블로그 링크 </a>
+
+---
+
+## 🔎 Level 3-10 : QueryDSL 을 사용하여 검색 기능 만들기
+`BooleanBuilder builder = new BooleanBuilder();`를 통해 쿼리문을 붙여줌
+
+---
+
+## 🙆 Level 3-11 : 매니저 등록 요청을 기록하는 로그 테이블을 만들기
+<img width="696" alt="image" src="https://github.com/user-attachments/assets/15d9c303-9c4f-4c79-8f67-e12cca9b5403" />
+접근한 사람을 저장하는 Log 테이블을 생성해서 매니저 등록을 요청하는 사람들을 저장한다
+
+`@Transactional(propagation = Propagation.REQUIRES_NEW)` = 부모의 트랜잭션과는 독립적으로 작동!
+
+➡️ 등록은 실패할 수 있지만, 로그는 반드시 저장되도록 설정
